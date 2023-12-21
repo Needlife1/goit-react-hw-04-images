@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { getAllPictures } from '../picturse/pictures';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -40,13 +40,13 @@ export function App() {
           const newPictures = [...prevPictures, ...data.hits];
 
           if (data.total <= newPictures.length) {
-            alert('Картинки закончились =(');
+            alert('Картинки закінчились =(');
           }
 
           return newPictures;
         });
       } catch (error) {
-        alert('Что-то пошло не так...');
+        alert('Щось пішло не так...');
         console.error('Error fetching pictures:', error);
       } finally {
         setLoading(false);
