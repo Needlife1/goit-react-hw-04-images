@@ -1,37 +1,40 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SearchbarStyled } from './Searchbar.styled';
 import { ImSearch } from 'react-icons/im';
 
 export const Searchbar = ({ inputValue, getPictures }) => {
   const [newInputValue, setNewInputValue] = useState('');
 
-  const getValue = e => {
+  const handleChange = e => {
     setNewInputValue(e.target.value.toLowerCase());
   };
 
-  const handleInputChenge = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    if (getPictures && newInputValue !== inputValue) {
+    if (getPictures && newInputValue.trim() !== inputValue.trim()) {
       getPictures(newInputValue);
     }
   };
 
   useEffect(() => {
-    if (inputValue !== newInputValue) {
-      setNewInputValue(inputValue);
-    }
+    setNewInputValue(prev => {
+      if (prev.trim() !== inputValue.trim()) {
+        return inputValue;
+      }
+      return prev;
+    });
   }, [inputValue]);
 
   return (
     <SearchbarStyled className="searchbar">
-      <form className="SearchForm" onSubmit={handleInputChenge}>
+      <form className="SearchForm" onSubmit={handleSubmit}>
         <button type="submit" className="SearchForm-button">
           <ImSearch />
         </button>
 
         <input
           className="SearchForm-input"
-          onChange={getValue}
+          onChange={handleChange}
           type="text"
           autoComplete="off"
           autoFocus
